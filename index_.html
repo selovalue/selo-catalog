@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELO 공구 카탈로그</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #F7F6F3;
+  --surface: #FFFFFF;
+  --surface2: #F0EEE9;
+  --border: #E4E1DA;
+  --text-1: #1A1917;
+  --text-2: #6B6860;
+  --text-3: #9E9B94;
+  --green: #2D6A4F;
+  --green-light: #E8F5EE;
+  --green-mid: #A8D5B5;
+  --amber: #C17D3C;
+  --amber-light: #FDF3E7;
+  --red: #B5341A;
+  --tag-bg: #EDEAE3;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; }
+
+/* ── HEADER ── */
+header {
+  background: var(--text-1); color: #fff;
+  padding: 0 24px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; }
+.logo span { color: var(--green-mid); font-weight: 300; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-sub { font-size: 11px; color: #888; letter-spacing: 0.05em; }
+.admin-btn {
+  padding: 5px 12px; border-radius: 6px;
+  border: 1px solid #444; background: transparent;
+  color: #aaa; font-size: 11px; font-weight: 600;
+  cursor: pointer; font-family: inherit; letter-spacing: 0.05em;
+  transition: all 0.15s;
+}
+.admin-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
+.admin-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* ── FILTER ── */
+.filter-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 12px 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.filter-label { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 4px; }
+.filter-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--bg); font-size: 12px; font-weight: 500; color: var(--text-2);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.filter-btn:hover { border-color: var(--green); color: var(--green); }
+.filter-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* ── MAIN ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; justify-content: space-between; }
+.section-title { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
+.item-count { font-size: 12px; color: var(--text-3); }
+.refresh-btn {
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface); font-size: 11px; font-weight: 600;
+  color: var(--text-2); cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.refresh-btn:hover { border-color: var(--green); color: var(--green); }
+
+/* ── LOADING ── */
+.loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 80px 20px; gap: 16px;
+}
+.spinner {
+  width: 36px; height: 36px; border: 3px solid var(--border);
+  border-top-color: var(--green); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 13px; color: var(--text-3); }
+
+/* ── GRID ── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s; position: relative;
+}
+.card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.09); transform: translateY(-2px); }
+.card-thumb {
+  width: 100%; height: 180px; background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.card-thumb-placeholder { font-size: 40px; opacity: 0.25; }
+.stock-badge {
+  position: absolute; top: 10px; right: 10px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; color: #fff;
+}
+.stock-충분 { background: var(--green); }
+.stock-한정 { background: var(--amber); }
+.stock-품절 { background: var(--red); }
+.card-body { padding: 16px; }
+.card-brand { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 5px; }
+.card-name { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+.card-point {
+  font-size: 12px; color: var(--text-2); line-height: 1.5; margin-bottom: 12px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.price-consumer { font-size: 11px; color: var(--text-3); text-decoration: line-through; }
+.price-gonggu { font-size: 17px; font-weight: 700; white-space: nowrap; }
+.card-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.meta-tag { padding: 3px 8px; background: var(--tag-bg); border-radius: 4px; font-size: 10px; font-weight: 500; color: var(--text-2); }
+.meta-commission { background: var(--amber-light); color: var(--amber); }
+.meta-supply { background: var(--green-light); color: var(--green); }
+.meta-sample { background: #EEF2FF; color: #4338CA; }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 60px 20px; color: var(--text-3); }
+.empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+.error-box {
+  background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 8px;
+  padding: 16px 20px; margin-bottom: 20px; font-size: 13px; color: var(--red);
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: 16px;
+  width: 100%; max-width: 620px; max-height: 90vh;
+  overflow-y: auto; position: relative;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--surface2); border: none; cursor: pointer;
+  font-size: 16px; color: var(--text-2); z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+
+/* gallery */
+.gallery { width: 100%; height: 240px; background: var(--surface2); border-radius: 16px 16px 0 0; overflow: hidden; position: relative; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.gallery img.active { display: block; }
+.gallery-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px; opacity: 0.2; }
+.gallery-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,0.35); color: #fff; border: none;
+  width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px;
+}
+.gallery-arrow.left { left: 10px; }
+.gallery-arrow.right { right: 10px; }
+.gallery-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+.gallery-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
+.gallery-dot.active { background: #fff; }
+
+.modal-body { padding: 24px; }
+.modal-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.modal-title { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+.modal-point { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; padding: 12px 14px; background: var(--green-light); border-radius: 8px; border-left: 3px solid var(--green); }
+
+/* price table */
+.price-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+.price-table th { background: var(--surface2); padding: 8px 12px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-3); text-transform: uppercase; }
+.price-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.price-table tr:last-child td { border-bottom: none; }
+.td-gonggu { font-weight: 700; color: var(--amber); }
+.td-commission { font-weight: 600; color: var(--green); }
+/* 관리자만 보이는 공급율 열 */
+.supply-col { display: none; }
+body.admin-mode .supply-col { display: table-cell; }
+
+/* info grid */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.info-box { background: var(--surface2); border-radius: 8px; padding: 12px 14px; }
+.info-box.full { grid-column: 1 / -1; }
+.info-box-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+.info-box-value { font-size: 13px; font-weight: 500; line-height: 1.5; }
+
+/* sample */
+.sample-box { background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+.sample-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--green); text-transform: uppercase; margin-bottom: 6px; }
+.sample-content { font-size: 12px; color: #1A5C38; line-height: 1.7; }
+
+/* CTA */
+.modal-cta { display: flex; gap: 10px; }
+.btn-primary { flex: 1; padding: 13px; background: var(--green); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.btn-primary:hover { background: #245940; }
+.btn-secondary { padding: 13px 18px; background: transparent; color: var(--text-2); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
+.btn-secondary:hover { background: var(--surface2); }
+
+/* 공구신청 모달 */
+.apply-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 300;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.apply-overlay.open { display: flex; }
+.apply-modal {
+  background: var(--surface); border-radius: 16px;
+  width: 100%; max-width: 480px; padding: 32px;
+}
+.apply-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.apply-subtitle { font-size: 13px; color: var(--text-2); margin-bottom: 24px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+.form-input, .form-select, .form-textarea {
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: inherit; color: var(--text-1);
+  background: var(--bg); transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--green); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.apply-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+/* 어드민 패널 */
+.admin-panel { display: none; background: var(--surface); border-bottom: 2px solid var(--green); }
+.admin-panel.open { display: block; }
+.admin-inner { max-width: 1100px; margin: 0 auto; padding: 20px; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.admin-title { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+.admin-note { font-size: 12px; color: var(--text-2); background: var(--amber-light); padding: 8px 14px; border-radius: 6px; border-left: 3px solid var(--amber); }
+
+/* lock */
+.lock-screen { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 32px 0; }
+.lock-input { padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; width: 200px; text-align: center; letter-spacing: 0.2em; }
+.lock-input:focus { outline: none; border-color: var(--green); }
+.lock-msg { font-size: 13px; color: var(--text-3); }
+.lock-error { font-size: 12px; color: var(--red); display: none; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  .info-grid { grid-template-columns: 1fr 1fr; }
+  .info-box.full { grid-column: 1 / -1; }
+  .modal-cta, .apply-actions { flex-direction: column; }
+  .filter-bar { padding: 10px 16px; gap: 6px; }
+  .main { padding: 16px 12px 60px; }
+  .card-name { font-size: 14px; }
+  .price-gonggu { font-size: 15px; }
+  .filter-btn { padding: 5px 10px; font-size: 11px; }
+  .modal { border-radius: 12px; }
+  .gallery { height: 200px; }
+  .price-table { font-size: 12px; }
+  .price-table th, .price-table td { padding: 7px 8px; }
+}
+
+@media (max-width: 360px) {
+  .price-table th, .price-table td { padding: 6px 6px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SELO <span>by 셀로</span></div>
+  <div class="header-right">
+    <div class="header-sub">공구 파트너 전용 카탈로그</div>
+    <button class="admin-btn" id="adminBtn" onclick="toggleAdmin()">관리자</button>
+  </div>
+</header>
+
+<!-- 관리자 패널 -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-inner">
+    <div id="lockScreen" class="lock-screen">
+      <div class="lock-msg">🔒 관리자 비밀번호를 입력하세요</div>
+      <input type="password" class="lock-input" id="pwInput" placeholder="••••" onkeydown="if(event.key==='Enter')checkPw()">
+      <button class="btn-primary" style="width:200px;padding:10px" onclick="checkPw()">확인</button>
+      <div class="lock-error" id="pwError">비밀번호가 틀렸습니다</div>
+    </div>
+    <div id="adminContent" class="hidden">
+      <div class="admin-header">
+        <div class="admin-title">⚙️ 관리자 모드</div>
+      </div>
+      <div class="admin-note">
+        💡 아이템 추가·수정은 <strong>구글 시트</strong>에서 직접 하세요. 수정 후 아래 "새로고침" 버튼을 누르면 웹사이트에 바로 반영됩니다.<br>
+        🔒 <strong>공급율</strong>은 관리자 모드에서만 보입니다. 셀러 화면에는 절대 노출되지 않습니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 필터 바 -->
+<div class="filter-bar">
+  <span class="filter-label">카테고리</span>
+  <button class="filter-btn active" onclick="filterCat('전체', this)">전체</button>
+  <button class="filter-btn" onclick="filterCat('뷰티', this)">뷰티</button>
+  <button class="filter-btn" onclick="filterCat('식품·영양제', this)">식품·영양제</button>
+  <button class="filter-btn" onclick="filterCat('육아용품', this)">육아용품</button>
+  <button class="filter-btn" onclick="filterCat('리빙·생활', this)">리빙·생활</button>
+  <button class="filter-btn" onclick="filterCat('가구·인테리어', this)">가구·인테리어</button>
+  <button class="filter-btn" onclick="filterCat('캠핑·반려동물', this)">캠핑·반려동물</button>
+  <button class="filter-btn" onclick="filterCat('패션', this)">패션</button>
+</div>
+
+<div class="main">
+  <div class="section-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="section-title">공구 아이템</span>
+      <span class="item-count" id="itemCount"></span>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">🔄 새로고침</button>
+  </div>
+  <div id="errorBox" class="error-box hidden"></div>
+  <div id="loadingEl" class="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">아이템 불러오는 중...</div>
+  </div>
+  <div class="grid hidden" id="grid"></div>
+  <div class="empty hidden" id="emptyEl">
+    <div class="empty-icon">📦</div>
+    <div>해당 카테고리의 아이템이 없어요</div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="gallery" id="modalGallery"></div>
+    <div class="modal-body">
+      <div class="modal-brand" id="modalBrand"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-point" id="modalPoint"></div>
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">옵션별 가격</div>
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>옵션</th>
+            <th>소비자가</th>
+            <th>공구가</th>
+            <th class="supply-col" style="background:#FFF3CD;color:#856404">공급율</th>
+            <th>수수료</th>
+          </tr>
+        </thead>
+        <tbody id="modalPriceBody"></tbody>
+      </table>
+
+      <div class="info-grid" id="modalInfoGrid"></div>
+      <div class="sample-box hidden" id="modalSample"></div>
+      <div class="modal-cta">
+        <button class="btn-primary" id="modalApplyBtn">공구 신청하기</button>
+        <button class="btn-secondary" id="modalStoreBtn" onclick="openStore()" style="display:none">판매처 바로가기</button>
+        <button class="btn-secondary" onclick="closeModalDirect()">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 공구 신청 모달 -->
+<div class="apply-overlay" id="applyOverlay" onclick="closeApply(event)">
+  <div class="apply-modal" onclick="event.stopPropagation()">
+    <div class="apply-title">공구 신청</div>
+    <div class="apply-subtitle" id="applyItemName"></div>
+    <div class="form-group">
+      <label class="form-label">셀러 이름 *</label>
+      <input class="form-input" id="applyName" placeholder="이름을 입력하세요">
+    </div>
+    <div class="form-group">
+      <label class="form-label">연락처 *</label>
+      <input class="form-input" id="applyContact" placeholder="010-0000-0000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">희망 공구 날짜</label>
+      <input class="form-input" id="applyDate" type="date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">채널/스토어명</label>
+      <input class="form-input" id="applyChannel" placeholder="운영 중인 채널명">
+    </div>
+    <div class="form-group">
+      <label class="form-label">메모</label>
+      <textarea class="form-textarea" id="applyMemo" placeholder="기타 문의사항"></textarea>
+    </div>
+    <div class="apply-actions">
+      <button class="btn-primary" onclick="submitApply()">신청하기</button>
+      <button class="btn-secondary" onclick="document.getElementById('applyOverlay').classList.remove('open')">취소</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 설정 ──
+const ADMIN_PW   = "selo2024";  // 비밀번호 변경 가능
+const SHEET_INFO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdp1z4P_3z9N0MJ9oavdO6mV1OQNvQa-qPzs1IW_hgkMgPu7cg6_uVU2s6SxMCHA/pub?gid=220280297&single=true&output=csv";
+const SHEET_OPTS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdp1z4P_3z9N0MJ9oavdO6mV1OQNvQa-qPzs1IW_hgkMgPu7cg6_uVU2s6SxMCHA/pub?gid=1696735913&single=true&output=csv";
+
+// 공구신청 구글폼 (나중에 연동 시 URL 교체)
+const APPLY_FORM_URL = "";
+
+let allItems = [];
+let optionMap = {};
+let currentCat = "전체";
+let currentItem = null;
+let galleryIdx  = 0;
+let adminUnlocked = false;
+
+// ── CSV 파싱 ──
+function parseCSV(text) {
+  const rows = [];
+  const lines = text.split('\n');
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] === '"') { inQ = !inQ; continue; }
+      if (line[i] === ',' && !inQ) { cols.push(cur.trim()); cur = ''; continue; }
+      cur += line[i];
+    }
+    cols.push(cur.trim());
+    rows.push(cols);
+  }
+  return rows;
+}
+
+// ── 데이터 로드 ──
+async function loadData() {
+  showLoading(true);
+  hideError();
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch(SHEET_INFO).then(r => r.text()),
+      fetch(SHEET_OPTS).then(r => r.text()),
+    ]);
+
+    // 기본정보 파싱
+    const infoRows = parseCSV(r1);
+    const infoHeader = infoRows[0];
+    const iCol = h => infoHeader.findIndex(x => x === h);
+
+    allItems = infoRows.slice(1)
+      .filter(r => r[iCol('번호')] && r[iCol('아이템명')])
+      .map(r => ({
+        no:       r[iCol('번호')],
+        brand:    r[iCol('브랜드')]    || '',
+        cat:      r[iCol('카테고리')]   || '',
+        name:     r[iCol('아이템명')]   || '',
+        settle:   r[iCol('정산정보')]   || '',
+        delivery: r[iCol('배송정보')]   || '',
+        sample:   r[iCol('샘플안내')]   || '',
+        point:    r[iCol('소구점')]     || '',
+        url:      r[iCol('공식판매처URL')] || '',
+        stock:    r[iCol('재고현황')]   || '충분',
+        img1:     r[iCol('이미지1_URL')] || '',
+        img2:     r[iCol('이미지2_URL')] || '',
+        img3:     r[iCol('이미지3_URL')] || '',
+      }));
+
+    // 옵션 파싱
+    const optRows = parseCSV(r2);
+    const optHeader = optRows[0];
+    const oCol = h => optHeader.findIndex(x => x === h);
+    optionMap = {};
+    optRows.slice(1).filter(r => r[oCol('번호')]).forEach(r => {
+      const no = r[oCol('번호')];
+      if (!optionMap[no]) optionMap[no] = [];
+      optionMap[no].push({
+        name:       r[oCol('옵션명')]          || '',
+        consumer:   r[oCol('소비자가')]         || '',
+        gonggu:     r[oCol('공구가')]           || '',
+        supply:     r[oCol('공급율\n(내부전용)')] || r[oCol('공급율(내부전용)')] || r[oCol('공급율')] || '',
+        commission: r[oCol('수수료')]           || '',
+      });
+    });
+
+    renderGrid(currentCat);
+  } catch (e) {
+    showError("데이터를 불러오지 못했어요. 구글 시트 게시 설정을 확인해주세요.");
+  }
+  showLoading(false);
+}
+
+// ── 렌더 ──
+function fmt(n) {
+  const num = parseInt(String(n).replace(/[^\d]/g,''));
+  return isNaN(num) ? n : num.toLocaleString('ko-KR') + '원';
+}
+
+function renderGrid(cat) {
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyEl');
+  const count = document.getElementById('itemCount');
+  const filtered = cat === '전체' ? allItems : allItems.filter(i => i.cat === cat);
+  count.textContent = filtered.length + '개 아이템';
+
+  if (!filtered.length) {
+    grid.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  grid.classList.remove('hidden');
+
+  grid.innerHTML = filtered.map(item => {
+    const opts = optionMap[item.no] || [];
+    const base = opts[0] || {};
+    const thumb = item.img1 ? `<img src="${item.img1}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=card-thumb-placeholder>🧴</div>'">` : `<div class="card-thumb-placeholder">🧴</div>`;
+    const hasSample = item.sample && item.sample.trim();
+    return `
+      <div class="card" onclick="openModal('${item.no}')">
+        <div class="card-thumb">
+          ${thumb}
+          <span class="stock-badge stock-${item.stock}">${item.stock}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-brand">${item.brand} · ${item.cat}</div>
+          <div class="card-name">${item.name}</div>
+          <div class="card-point">${item.point || '–'}</div>
+          <div class="card-prices">
+            ${base.consumer ? `<span class="price-consumer">${fmt(base.consumer)}</span>` : ''}
+            <span class="price-gonggu">${base.gonggu ? fmt(base.gonggu) : '가격 문의'}</span>
+          </div>
+          <div class="card-meta">
+            ${base.commission ? `<span class="meta-tag meta-commission">수수료 ${base.commission}</span>` : ''}
+            ${hasSample ? `<span class="meta-tag meta-sample">샘플 제공</span>` : ''}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid(cat);
+}
+
+// ── 모달 ──
+function openModal(no) {
+  const item = allItems.find(i => i.no === no);
+  if (!item) return;
+  currentItem = item;
+  const opts = optionMap[no] || [];
+
+  // gallery
+  const imgs = [item.img1, item.img2, item.img3].filter(Boolean);
+  const gallery = document.getElementById('modalGallery');
+  galleryIdx = 0;
+  if (imgs.length) {
+    gallery.innerHTML = imgs.map((src, i) =>
+      `<img class="${i===0?'active':''}" src="${src}" alt="" onerror="this.remove()">`
+    ).join('') +
+    (imgs.length > 1 ? `
+      <button class="gallery-arrow left" onclick="moveGallery(-1)">‹</button>
+      <button class="gallery-arrow right" onclick="moveGallery(1)">›</button>
+      <div class="gallery-dots">${imgs.map((_,i)=>`<div class="gallery-dot${i===0?' active':''}" onclick="goGallery(${i})"></div>`).join('')}</div>
+    ` : '');
+  } else {
+    gallery.innerHTML = `<div class="gallery-placeholder">🧴</div>`;
+  }
+
+  document.getElementById('modalBrand').textContent = `${item.brand} · ${item.cat}`;
+  document.getElementById('modalTitle').textContent = item.name;
+  document.getElementById('modalPoint').textContent = item.point || '상세 문의해주세요.';
+
+  // 가격표
+  const isAdmin = document.body.classList.contains('admin-mode');
+  document.getElementById('modalPriceBody').innerHTML = opts.length
+    ? opts.map(o => `
+        <tr>
+          <td>${o.name}</td>
+          <td style="color:var(--text-3);text-decoration:line-through">${o.consumer ? fmt(o.consumer) : '–'}</td>
+          <td class="td-gonggu">${o.gonggu ? fmt(o.gonggu) : '–'}</td>
+          <td class="supply-col" style="background:#FFF9E6;font-weight:700;color:#856404">${o.supply || '–'}</td>
+          <td class="td-commission">${o.commission || '–'}</td>
+        </tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:16px">옵션 정보를 확인 중입니다</td></tr>`;
+
+  // 정보
+  document.getElementById('modalInfoGrid').innerHTML = `
+    <div class="info-box"><div class="info-box-label">재고 현황</div><div class="info-box-value">${item.stock}</div></div>
+    <div class="info-box"><div class="info-box-label">배송 정보</div><div class="info-box-value">${item.delivery || '–'}</div></div>
+    <div class="info-box full"><div class="info-box-label">정산 정보</div><div class="info-box-value">${item.settle || '–'}</div></div>`;
+
+  // 샘플
+  const sampleEl = document.getElementById('modalSample');
+  if (item.sample && item.sample.trim()) {
+    sampleEl.classList.remove('hidden');
+    sampleEl.innerHTML = `<div class="sample-title">📦 샘플 안내</div><div class="sample-content">${item.sample.replace(/\n/g,'<br>')}</div>`;
+  } else {
+    sampleEl.classList.add('hidden');
+  }
+
+  // 버튼
+  document.getElementById('modalApplyBtn').onclick = () => openApply(item);
+  const storeBtn = document.getElementById('modalStoreBtn');
+  if (item.url) { storeBtn.style.display = ''; window._storeUrl = item.url; }
+  else { storeBtn.style.display = 'none'; }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openStore() { if (window._storeUrl) window.open(window._storeUrl, '_blank'); }
+function moveGallery(d) {
+  const imgs = document.querySelectorAll('.gallery img');
+  const dots = document.querySelectorAll('.gallery-dot');
+  if (!imgs.length) return;
+  imgs[galleryIdx].classList.remove('active');
+  if(dots[galleryIdx]) dots[galleryIdx].classList.remove('active');
+  galleryIdx = (galleryIdx + d + imgs.length) % imgs.length;
+  imgs[galleryIdx].classList.add('active');
+  if(dots[galleryIdx]) dots[galleryIdx].classList.add('active');
+}
+function goGallery(i) { if(i !== galleryIdx) moveGallery(i - galleryIdx); }
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── 공구 신청 ──
+function openApply(item) {
+  document.getElementById('applyItemName').textContent = `📦 ${item.brand} | ${item.name}`;
+  document.getElementById('applyName').value = '';
+  document.getElementById('applyContact').value = '';
+  document.getElementById('applyDate').value = '';
+  document.getElementById('applyChannel').value = '';
+  document.getElementById('applyMemo').value = '';
+  document.getElementById('applyOverlay').classList.add('open');
+}
+function closeApply(e) {
+  if (e.target === document.getElementById('applyOverlay'))
+    document.getElementById('applyOverlay').classList.remove('open');
+}
+function submitApply() {
+  const name    = document.getElementById('applyName').value.trim();
+  const contact = document.getElementById('applyContact').value.trim();
+  if (!name || !contact) { alert('이름과 연락처는 필수입니다.'); return; }
+
+  if (APPLY_FORM_URL) {
+    // 구글폼 연동 시 여기에 파라미터 추가
+    window.open(APPLY_FORM_URL, '_blank');
+  } else {
+    // 카카오톡 또는 이메일 fallback
+    const msg = `[SELO 공구신청]\n아이템: ${currentItem?.name}\n이름: ${name}\n연락처: ${contact}\n희망날짜: ${document.getElementById('applyDate').value || '미정'}\n채널: ${document.getElementById('applyChannel').value || '미입력'}\n메모: ${document.getElementById('applyMemo').value || '없음'}`;
+    alert("신청이 접수되었습니다!\nSELO 담당자가 곧 연락드릴게요 😊");
+    document.getElementById('applyOverlay').classList.remove('open');
+  }
+}
+
+// ── 관리자 ──
+function toggleAdmin() {
+  const panel = document.getElementById('adminPanel');
+  const btn = document.getElementById('adminBtn');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.classList.toggle('active');
+  if (!isOpen && !adminUnlocked) {
+    document.getElementById('lockScreen').style.display = 'flex';
+    document.getElementById('adminContent').classList.add('hidden');
+  }
+  if (isOpen) {
+    document.body.classList.remove('admin-mode');
+  }
+}
+function checkPw() {
+  if (document.getElementById('pwInput').value === ADMIN_PW) {
+    adminUnlocked = true;
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('adminContent').classList.remove('hidden');
+    document.body.classList.add('admin-mode');
+    renderGrid(currentCat);
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+  }
+}
+
+// ── 유틸 ──
+function showLoading(v) {
+  document.getElementById('loadingEl').classList.toggle('hidden', !v);
+  if (v) { document.getElementById('grid').classList.add('hidden'); document.getElementById('emptyEl').classList.add('hidden'); }
+}
+function showError(msg) {
+  const el = document.getElementById('errorBox');
+  el.textContent = msg; el.classList.remove('hidden');
+}
+function hideError() { document.getElementById('errorBox').classList.add('hidden'); }
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModalDirect(); document.getElementById('applyOverlay').classList.remove('open'); } });
+
+// 초기 로드
+loadData();
+</script>
+</body>
+</html>
