@@ -11,10 +11,12 @@
 <meta property="og:image" content="https://selovalue.github.io/selo-catalog/og-image.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#F7F6F3;color:#1A1917;min-height:100vh}
+body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#F7F6F3;color:#1A1917;min-height:100vh}
 button{font-family:inherit;cursor:pointer}
 a{text-decoration:none}
 
@@ -207,7 +209,7 @@ a{text-decoration:none}
 .sbadge{position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;color:#fff}
 .s충분{background:var(--navy)}.s한정{background:var(--amber)}.s품절{background:var(--red)}
 .ibody{padding:16px}
-.ibrand{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:5px}
+.ibrand{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--navy);margin-bottom:6px}
 .iname{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:8px}
 .ipoint{font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .iprices{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
@@ -236,7 +238,7 @@ a{text-decoration:none}
 .gdots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
 .gdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer}.gdot.on{background:#fff}
 .mdb{padding:24px}
-.md-brand{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.md-brand{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--navy);margin-bottom:6px}
 .md-name{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:10px;letter-spacing:-.01em}
 .md-pt{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:22px;padding:14px 16px;background:#EBF1FB;border-radius:8px;border-left:3px solid var(--navy)}
 .pt-t{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
@@ -280,15 +282,15 @@ body.admin #supplyTh{display:table-cell}
 .proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
 .pc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px 14px;text-align:center;transition:all .2s}
 .pc:hover{border-color:var(--navy);transform:translateY(-2px)}
-.pnum{font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.08em;margin-bottom:8px}
-.ptit{font-size:13px;font-weight:700;color:#1A1917;margin-bottom:6px;line-height:1.3}
-.pdesc{font-size:10px;color:var(--text-3);line-height:1.5}
+.pnum{font-size:11px;font-weight:700;color:#8A9AB5;letter-spacing:.08em;margin-bottom:8px}
+.ptit{font-size:13px;font-weight:800;color:#1A1917;margin-bottom:6px;line-height:1.3}
+.pdesc{font-size:11px;color:#5A6A7A;line-height:1.5}
 .pc.hl{border:2px solid var(--navy);background:#EBF1FB}.pc.hl .ptit{color:var(--navy)}
 .pnum-hl{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:800;margin:0 auto 8px}
 .pinfo{background:var(--bg);border-radius:12px;padding:24px}
-.pinfo-t{font-size:13px;font-weight:700;margin-bottom:16px}
+.pinfo-t{font-size:13px;font-weight:800;color:#1A1917;margin-bottom:16px}
 .pinfo-g{display:grid;grid-template-columns:1fr 1fr;gap:8px 32px}
-.pii{font-size:12px;color:var(--text-2);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.pii{font-size:12px;color:#3A4A5A;font-weight:500;padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
 .pii::before{content:'·';color:var(--navy);font-weight:900}
 .pii.full{grid-column:1/-1}
 .pnote{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3)}
@@ -341,6 +343,12 @@ body.admin #supplyTh{display:table-cell}
     </div>
     <div id="adminOk" class="hidden">
       <div class="admin-note">⚙️ <strong>관리자 모드</strong> — 공급율이 표시됩니다. 아이템 수정은 구글 시트에서 하세요. 수정 후 🔄 새로고침 버튼을 누르면 반영됩니다.</div>
+      <div style="margin-top:16px">
+        <div style="font-size:12px;font-weight:700;color:#1B3C6E;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase">👁 아이템 조회수 (TOP 20)</div>
+        <div id="viewStats" style="max-height:200px;overflow-y:auto"></div>
+        <button onclick="document.getElementById('viewStats').innerHTML=showViewStats()" style="margin-top:8px;padding:6px 14px;background:#EBF1FB;color:#1B3C6E;border:1px solid #6B9FD4;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">조회수 새로고침</button>
+        <button onclick="if(confirm('조회수를 초기화할까요?')){items.forEach(i=>localStorage.removeItem('view_'+i.no));renderGrid();document.getElementById('viewStats').innerHTML=showViewStats()}" style="margin-top:8px;margin-left:6px;padding:6px 14px;background:#FFF5F5;color:#B5341A;border:1px solid #FED7D7;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">초기화</button>
+      </div>
     </div>
   </div>
 </div>
@@ -596,7 +604,7 @@ body.admin #supplyTh{display:table-cell}
         <div class="pc hl"><div class="pnum-hl">10</div><div class="ptit">정산</div><div class="pdesc">수수료 정산 완료</div></div>
       </div>
       <div class="pinfo">
-        <div class="pinfo-t">📋 제안서 작성 시 필요한 정보 (03단계)</div>
+        <div class="pinfo-t">📋 제안서 작성 시 필요한 정보</div>
         <div class="pinfo-g">
           <div class="pii">소비자가 (정가)</div><div class="pii">공구가</div>
           <div class="pii">공급가</div><div class="pii">셀러 수수료</div>
@@ -604,7 +612,7 @@ body.admin #supplyTh{display:table-cell}
           <div class="pii">정산 정보</div><div class="pii">브랜드사 결제링크 제공 여부</div>
           <div class="pii full">결제링크 이용 시 차감 수수료 여부</div>
         </div>
-        <div class="pnote">📸 셀러 배포용 고화질 제품 사진도 함께 보내주시면 감사합니다.</div>
+        <div class="pnote" style="background:linear-gradient(135deg,#EBF1FB,#D4E4F7);border:1.5px solid #6B9FD4;border-radius:8px;padding:12px 16px;color:#1B3C6E;font-weight:700;font-size:13px;margin-top:16px">📸 셀러 배포용 고화질 제품 사진도 함께 보내주시면 감사합니다!</div>
       </div>
     </div>
     <div style="text-align:center">
@@ -626,7 +634,7 @@ body.admin #supplyTh{display:table-cell}
       <div class="md-pt" id="mPt"></div>
       <div class="pt-t">옵션별 가격</div>
       <table class="ptbl">
-        <thead><tr><th>옵션</th><th>소비자가</th><th>공구가</th><th id="supplyTh" style="background:#FFF9E6;color:#856404">공급율</th><th>수수료</th></tr></thead>
+        <thead><tr><th>옵션</th><th>소비자가</th><th id="supplyTh" style="background:#FFF9E6;color:#856404">공급율</th><th>수수료</th></tr></thead>
         <tbody id="mTbody"></tbody>
       </table>
       <div class="ig" id="mInfo"></div>
@@ -755,13 +763,14 @@ function renderGrid(){
   grid.innerHTML=filtered.map(item=>{
     const opts=optMap[item.no]||[],base=opts[0]||{};
     const thumb=item.img1?`<img src="${item.img1}" alt="" onerror="this.parentElement.innerHTML='<div class=iph>🧴</div>'">`:'<div class="iph">🧴</div>';
-    return`<div class="icard" onclick="openMo('${item.no}')">
+    return`<div class="icard" onclick="openMo('${item.no}')" style="position:relative">
+      ${document.body.classList.contains('admin')?`<div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;z-index:2">👁 ${getViews(item.no)}회</div>`:''}
       <div class="ithumb">${thumb}<span class="sbadge s${item.stock}">${item.stock}</span></div>
       <div class="ibody">
         <div class="ibrand">${item.brand} · ${item.cat}</div>
         <div class="iname">${item.name}</div>
         <div class="ipoint">${item.point||'–'}</div>
-        <div class="iprices">${base.consumer?`<span class="iprice-o">${fmt(base.consumer)}</span>`:''}<span class="iprice-g">${base.gonggu?fmt(base.gonggu):'가격 문의'}</span></div>
+        <div class="iprices">${base.consumer?`<span class="iprice-o"><span style="font-size:9px;font-weight:600;color:#C4C1BC;margin-right:2px">소비자가</span>${fmt(base.consumer)}</span>`:''}<span class="iprice-g">${base.gonggu?`<span style="font-size:9px;font-weight:600;color:#9E9B94;margin-right:2px">공구가</span>${fmt(base.gonggu)}`:'가격 문의'}</span></div>
         <div class="imeta">${base.commission?`<span class="itag itag-f">수수료 ${base.commission}</span>`:''} ${item.sample?'<span class="itag itag-s">샘플 제공</span>':''}</div>
       </div></div>`;
   }).join('');
@@ -775,8 +784,36 @@ function filterCat(cat,btn){
 function onSrch(el){srchKw=el.value.trim();document.getElementById('srchClr').style.display=srchKw?'block':'none';renderGrid();}
 function clrSrch(){srchKw='';document.getElementById('srchIn').value='';document.getElementById('srchClr').style.display='none';renderGrid();}
 
+// ── 조회수 ──
+function getViews(no){
+  try{return parseInt(localStorage.getItem('view_'+no)||'0');}catch(e){return 0;}
+}
+function addView(no){
+  try{localStorage.setItem('view_'+no,getViews(no)+1);}catch(e){}
+}
+function getAllViews(){
+  const result=[];
+  items.forEach(item=>{
+    result.push({no:item.no,brand:item.brand,name:item.name,views:getViews(item.no)});
+  });
+  return result.sort((a,b)=>b.views-a.views);
+}
+
+// 관리자 패널에 조회수 현황 표시
+function showViewStats(){
+  const stats=getAllViews().filter(i=>i.views>0);
+  if(!stats.length)return '<div style="font-size:13px;color:#9E9B94;padding:8px 0">아직 조회 기록이 없어요</div>';
+  return stats.slice(0,20).map((i,idx)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #E4E1DA;font-size:13px">
+      <div><span style="color:#9E9B94;margin-right:8px">${idx+1}</span><strong>${i.brand}</strong> ${i.name.substring(0,20)}</div>
+      <div style="font-weight:700;color:#1B3C6E">👁 ${i.views}회</div>
+    </div>`).join('');
+}
+
 function openMo(no){
   const item=items.find(i=>i.no===no);if(!item)return;
+  addView(no);
+  if(document.body.classList.contains('admin'))renderGrid();
   const opts=optMap[no]||[];
   const imgs=[item.img1,item.img2,item.img3].filter(Boolean);
   const gal=document.getElementById('mgal');
@@ -841,6 +878,7 @@ function chkPw(){
     document.getElementById('supplyTh').style.display='';
     document.body.classList.add('admin');
     if(items.length)renderGrid();
+    document.getElementById('viewStats').innerHTML=showViewStats();
   }else{
     document.getElementById('pwErr').style.display='block';
     document.getElementById('pwIn').value='';
