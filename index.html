@@ -663,7 +663,17 @@ let items=[],optMap={},curCat='전체',srchKw='',galIdx=0,adminOn=false,logoN=0,
 // CSV 파서 - 따옴표 안 쉼표 처리
 function parseCSV(txt){
   const rows=[];
-  const lines=txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+  // 따옴표 안의 줄바꿈을 공백으로 교체 후 파싱
+  const cleaned=txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  // 따옴표 셀 내부 줄바꿈 제거
+  let inQ=false, out='';
+  for(let i=0;i<cleaned.length;i++){
+    const c=cleaned[i];
+    if(c==='"') inQ=!inQ;
+    if(c==='\n'&&inQ){ out+=' '; continue; }
+    out+=c;
+  }
+  const lines=out.split('\n');
   for(const line of lines){
     if(!line.trim())continue;
     const cols=[];let cur='',q=false;
@@ -723,15 +733,14 @@ async function loadData(){
       const no=r[0].trim();
       if(!optMap[no])optMap[no]=[];
       const cln=s=>(s||'').replace(/,/g,'').trim();
-      // 공급율 헤더가 줄바꿈으로 두 칸 차지: 7=공급율, 8=(내부전용), 9=수수료
-      const supply = (r[7]||'').trim() + ((r[8]||'').trim().startsWith('(') ? '' : '');
-      // 실제 공급율은 7번, 수수료는 9번
+      // parseCSV가 따옴표 내 줄바꿈 처리하므로 열 순서 정상
+      // 0:번호, 1:브랜드, 2:카테고리, 3:아이템명, 4:옵션명, 5:소비자가, 6:공구가, 7:공급율, 8:수수료, 9:비고
       optMap[no].push({
         name:(r[4]||'').trim(),
         consumer:cln(r[5]),
         gonggu:cln(r[6]),
         supply:(r[7]||'').trim(),
-        commission:(r[9]||'').trim()
+        commission:(r[8]||'').trim()
       });
     });
 
