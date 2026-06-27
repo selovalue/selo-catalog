@@ -634,7 +634,16 @@ body.admin #supplyTh{display:table-cell}
       <div class="md-pt" id="mPt"></div>
       <div class="pt-t">옵션별 가격</div>
       <table class="ptbl">
-        <thead><tr><th>옵션 1</th><th>옵션 2</th><th>소비자가</th><th>공구가</th><th id="supplyTh" style="background:#FFF9E6;color:#856404">공급율</th><th>수수료</th></tr></thead>
+        <thead>
+          <tr>
+            <th>옵션 1</th>
+            <th>옵션 2</th>
+            <th>소비자가</th>
+            <th>공구가</th>
+            <th id="supplyTh" style="display:none;background:#FFF9E6;color:#856404">공급율</th>
+            <th>수수료</th>
+          </tr>
+        </thead>
         <tbody id="mTbody"></tbody>
       </table>
       <div class="ig" id="mInfo"></div>
@@ -662,27 +671,24 @@ let items=[],optMap={},curCat='전체',srchKw='',galIdx=0,adminOn=false,logoN=0,
 
 // CSV 파서 - 따옴표 안 쉼표 처리
 function parseCSV(txt){
-  const rows=[];
-  // 따옴표 안의 줄바꿈을 공백으로 교체 후 파싱
-  const cleaned=txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-  // 따옴표 셀 내부 줄바꿈 제거
-  let inQ=false, out='';
-  for(let i=0;i<cleaned.length;i++){
-    const c=cleaned[i];
+  // 1단계: 따옴표 안의 줄바꿈을 공백으로 교체
+  let cleaned='', inQ=false;
+  for(let i=0;i<txt.length;i++){
+    const c=txt[i];
     if(c==='"') inQ=!inQ;
-    if(c==='\n'&&inQ){ out+=' '; continue; }
-    out+=c;
+    if((c==='\n'||c==='\r')&&inQ){ cleaned+=' '; continue; }
+    if(c==='\r') continue;
+    cleaned+=c;
   }
-  const lines=out.split('\n');
-  for(const line of lines){
-    if(!line.trim())continue;
-    const cols=[];let cur='',q=false;
+  // 2단계: 줄 단위로 분리 후 파싱
+  const rows=[];
+  for(const line of cleaned.split('\n')){
+    if(!line.trim()) continue;
+    const cols=[]; let cur='', q=false;
     for(let i=0;i<line.length;i++){
       const c=line[i];
-      if(c==='"'){
-        if(q&&line[i+1]==='"'){cur+='"';i++;}
-        else q=!q;
-      }else if(c===','&&!q){cols.push(cur.trim());cur='';}
+      if(c==='"'){ if(q&&line[i+1]==='"'){cur+='"';i++;} else q=!q; }
+      else if(c===','&&!q){ cols.push(cur.trim()); cur=''; }
       else cur+=c;
     }
     cols.push(cur.trim());
@@ -725,25 +731,30 @@ async function loadData(){
       regDate:r[iC('등록일')]||''
     }));
 
-    // 옵션 파싱 - 실제 시트 열 순서: 번호(0),브랜드(1),카테고리(2),아이템명(3),옵션명(4),소비자가(5),공구가(6),공급율(7),수수료(8),비고(9)
+    // 옵션 파싱
+    // 열: 0=번호, 1=브랜드, 2=카테고리, 3=아이템명, 4=옵션명, 5=소비자가, 6=공구가, 7=공급율, 8=수수료, 9=비고
     const or=parseCSV(r2);
     optMap={};
     or.slice(1).forEach(r=>{
-      if(!r[0]||!/^\d+$/.test(r[0].trim()))return;
+      if(!r[0]||!/^\d+$/.test(r[0].trim())) return;
       const no=r[0].trim();
-      if(!optMap[no])optMap[no]=[];
+      if(!optMap[no]) optMap[no]=[];
       const cln=s=>(s||'').replace(/,/g,'').trim();
-      // parseCSV가 따옴표 내 줄바꿈 처리하므로 열 순서 정상
-      // 0:번호, 1:브랜드, 2:카테고리, 3:아이템명, 4:옵션명, 5:소비자가, 6:공구가, 7:공급율, 8:수수료, 9:비고
+      const rawName=(r[4]||'').trim();
+      // 옵션명에 / 있으면 앞=옵션1, 뒤=옵션2
+      const slashIdx=rawName.indexOf('/');
+      const opt1=slashIdx>=0?rawName.slice(0,slashIdx).trim():rawName;
+      const opt2=slashIdx>=0?rawName.slice(slashIdx+1).trim():'';
       optMap[no].push({
-        name:(r[4]||'').trim(),
+        name:rawName,
+        opt1:opt1,
+        opt2:opt2,
         consumer:cln(r[5]),
         gonggu:cln(r[6]),
         supply:(r[7]||'').trim(),
         commission:(r[8]||'').trim()
       });
     });
-
     renderGrid();
   }catch(e){
     showErr('데이터를 불러오지 못했어요. ('+e.message+')');
@@ -844,9 +855,15 @@ function openMo(no){
 
   const isAdmin=document.body.classList.contains('admin');
   document.getElementById('mTbody').innerHTML=opts.length
-    ?opts.map(o=>`<tr><td>${o.name}</td><td class="td-o">${o.consumer?fmt(o.consumer):'–'}</td><td class="td-g">${o.gonggu?fmt(o.gonggu):'–'}</td>${isAdmin?`<td class="td-s">${o.supply||'–'}</td>`:''}<td class="td-f">${o.commission||'–'}</td></tr>`).join('')
-    :`<tr><td colspan="5" style="text-align:center;color:#9E9B94;padding:20px">옵션 정보 확인 중</td></tr>`;
-
+    ?opts.map(o=>`<tr>
+        <td>${o.opt1||'–'}</td>
+        <td style="color:#6B6860">${o.opt2||'–'}</td>
+        <td class="td-o">${o.consumer?fmt(o.consumer):'–'}</td>
+        <td class="td-g">${o.gonggu?fmt(o.gonggu):'–'}</td>
+        ${isAdmin?`<td class="td-s">${o.supply||'–'}</td>`:''}
+        <td class="td-f">${o.commission||'–'}</td>
+      </tr>`).join('')
+    :`<tr><td colspan="6" style="text-align:center;color:#9E9B94;padding:20px">옵션 정보 확인 중</td></tr>`;
   document.getElementById('mInfo').innerHTML=`<div class="ib"><div class="il">재고 현황</div><div class="iv">${item.stock}</div></div><div class="ib"><div class="il">배송 정보</div><div class="iv">${item.delivery||'–'}</div></div><div class="ib full"><div class="il">정산 정보</div><div class="iv">${item.settle||'–'}</div></div>`;
 
   const sb=document.getElementById('mSample');
