@@ -554,6 +554,12 @@ body.admin #supplyTh{display:table-cell}
     <button class="fb" onclick="filterCat('가구·인테리어',this)">가구·인테리어</button>
     <button class="fb" onclick="filterCat('캠핑·반려동물',this)">캠핑·반려동물</button>
     <button class="fb" onclick="filterCat('패션',this)">패션</button>
+    <select id="sortSelect" onchange="onSortChange(this)" style="margin-left:auto;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-weight:500;color:var(--text-2);cursor:pointer;outline:none">
+      <option value="new">🆕 최신순</option>
+      <option value="name">가나다순</option>
+      <option value="price_low">금액 낮은순</option>
+      <option value="price_high">금액 높은순</option>
+    </select>
   </div>
   <div class="cat-main">
     <div class="cat-hdr">
@@ -667,7 +673,7 @@ const SHEET_INFO='https://docs.google.com/spreadsheets/d/e/2PACX-1vRnuBESvUefLIi
 const SHEET_OPTS='https://docs.google.com/spreadsheets/d/e/2PACX-1vRnuBESvUefLIiZeAJgCjMQe4xzbT-LRAApP9jgfXn2UE6d4LYqC400oJQjvjsO1N94K4YMA136FlWI/pub?gid=1696735913&single=true&output=csv';
 const ADMIN_PW='selo2024';
 
-let items=[],optMap={},curCat='신규템',srchKw='',galIdx=0,adminOn=false,logoN=0,logoT=null;
+let items=[],optMap={},curCat='신규템',srchKw='',sortMode='new',galIdx=0,adminOn=false,logoN=0,logoT=null;
 
 // CSV 파서 - 따옴표 안 쉼표 처리
 function parseCSV(txt){
@@ -779,6 +785,27 @@ function renderGrid(){
   const cnt=document.getElementById('icount');
   let filtered=curCat==='전체'?items:curCat==='신규템'?items.filter(i=>isNew(i)):items.filter(i=>i.cat===curCat);
   if(srchKw){const k=srchKw.toLowerCase();filtered=filtered.filter(i=>i.name.toLowerCase().includes(k)||i.brand.toLowerCase().includes(k)||(i.point&&i.point.toLowerCase().includes(k)));}
+
+  // 정렬 적용
+  if(sortMode==='new'){
+    // 번호 큰 순 (최신 추가가 위로)
+    filtered = [...filtered].sort((a,b)=> (parseInt(b.no)||0) - (parseInt(a.no)||0) );
+  } else if(sortMode==='name'){
+    filtered = [...filtered].sort((a,b)=> a.brand.localeCompare(b.brand,'ko') || a.name.localeCompare(b.name,'ko') );
+  } else if(sortMode==='price_low'){
+    filtered = [...filtered].sort((a,b)=>{
+      const pa = parseInt(((optMap[a.no]||[])[0]||{}).gonggu) || Infinity;
+      const pb = parseInt(((optMap[b.no]||[])[0]||{}).gonggu) || Infinity;
+      return pa - pb;
+    });
+  } else if(sortMode==='price_high'){
+    filtered = [...filtered].sort((a,b)=>{
+      const pa = parseInt(((optMap[a.no]||[])[0]||{}).gonggu) || -Infinity;
+      const pb = parseInt(((optMap[b.no]||[])[0]||{}).gonggu) || -Infinity;
+      return pb - pa;
+    });
+  }
+
   cnt.textContent=filtered.length+'개';
   if(!filtered.length){
     grid.classList.add('hidden');empty.classList.remove('hidden');
@@ -800,6 +827,11 @@ function renderGrid(){
         <div class="imeta">${base.commission?`<span class="itag itag-f">수수료 ${base.commission}</span>`:''} ${item.sample?'<span class="itag itag-s">샘플 제공</span>':''}</div>
       </div></div>`;
   }).join('');
+}
+
+function onSortChange(sel){
+  sortMode = sel.value;
+  renderGrid();
 }
 
 function filterCat(cat,btn){
