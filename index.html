@@ -545,8 +545,8 @@ body.admin #supplyTh{display:table-cell}
   </div>
   <div class="fbar">
     <span class="fl">카테고리</span>
-    <button class="fb on" onclick="filterCat('전체',this)">전체</button>
-    <button class="fb new-f" onclick="filterCat('신규템',this)">🆕 신규템</button>
+    <button class="fb" onclick="filterCat('전체',this)">전체</button>
+    <button class="fb new-f on" onclick="filterCat('신규템',this)">🆕 신규템</button>
     <button class="fb" onclick="filterCat('뷰티',this)">뷰티</button>
     <button class="fb" onclick="filterCat('식품·영양제',this)">식품·영양제</button>
     <button class="fb" onclick="filterCat('육아용품',this)">육아용품</button>
@@ -667,7 +667,7 @@ const SHEET_INFO='https://docs.google.com/spreadsheets/d/e/2PACX-1vSdp1z4P_3z9N0
 const SHEET_OPTS='https://docs.google.com/spreadsheets/d/e/2PACX-1vSdp1z4P_3z9N0MJ9oavdO6mV1OQNvQa-qPzs1IW_hgkMgPu7cg6_uVU2s6SxMCHA/pub?gid=1696735913&single=true&output=csv';
 const ADMIN_PW='selo2024';
 
-let items=[],optMap={},curCat='전체',srchKw='',galIdx=0,adminOn=false,logoN=0,logoT=null;
+let items=[],optMap={},curCat='신규템',srchKw='',galIdx=0,adminOn=false,logoN=0,logoT=null;
 
 // CSV 파서 - 따옴표 안 쉼표 처리
 function parseCSV(txt){
